@@ -192,13 +192,13 @@ const Aptitude: React.FC<AptitudeProps> = ({
     }
   };
 
-  // Render Category Selection
+  // Render Category Selection - WITH DROPDOWN
   const renderCategorySelection = () => {
     if (loading) return <div style={{ color: 'white', textAlign: 'center', padding: '2rem' }}>Loading categories...</div>;
     if (error) return <div style={{ color: '#EF4444', textAlign: 'center', padding: '2rem' }}>Error: {error}</div>;
 
     return (
-      <div>
+      <div style={{ maxWidth: '600px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{
           display: 'flex',
@@ -225,61 +225,77 @@ const Aptitude: React.FC<AptitudeProps> = ({
           </div>
         </div>
 
-        {/* Category Cards */}
+        {/* Category Dropdown */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-          gap: '1.5rem'
+          background: 'rgba(255, 255, 255, 0.05)',
+          borderRadius: '1rem',
+          padding: '2.5rem',
+          border: '2px solid rgba(255, 215, 0, 0.2)'
         }}>
-          {categories.map((category) => (
-            <div
-              key={category.id}
-              onClick={() => handleCategorySelect(category)}
-              style={{
-                background: 'rgba(59, 130, 246, 0.1)',
-                border: '2px solid rgba(59, 130, 246, 0.3)',
-                borderRadius: '1rem',
-                padding: '2rem',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-5px)';
-                e.currentTarget.style.boxShadow = '0 12px 24px rgba(59, 130, 246, 0.4)';
-                e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.6)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.3)';
-              }}
-            >
-              <div style={{
-                fontSize: '3rem',
-                marginBottom: '1rem',
-                textAlign: 'center'
-              }}>
-                {category.icon || '📚'}
-              </div>
-              <h3 style={{
-                color: '#60A5FA',
-                fontSize: '1.3rem',
-                fontWeight: '600',
-                marginBottom: '0.75rem',
-                textAlign: 'center'
-              }}>
-                {category.name}
-              </h3>
-              <p style={{
-                color: '#D1D5DB',
-                fontSize: '0.9rem',
-                lineHeight: '1.5',
-                textAlign: 'center'
-              }}>
-                {category.description || 'Practice questions'}
-              </p>
-            </div>
-          ))}
+          <label style={{
+            display: 'block',
+            color: '#FFD700',
+            fontSize: '1.1rem',
+            fontWeight: '600',
+            marginBottom: '1rem'
+          }}>
+            Choose Category
+          </label>
+
+          <select
+            value={selectedCategory?.id || ''}
+            onChange={(e) => {
+              const category = categories.find(c => c.id === e.target.value);
+              if (category) {
+                handleCategorySelect(category);
+              }
+            }}
+            style={{
+              width: '100%',
+              padding: '1rem 1.25rem',
+              fontSize: '1.05rem',
+              borderRadius: '0.75rem',
+              border: '2px solid rgba(59, 130, 246, 0.4)',
+              background: 'rgba(59, 130, 246, 0.1)',
+              color: '#FFFFFF',
+              cursor: 'pointer',
+              outline: 'none',
+              transition: 'all 0.3s ease',
+              fontWeight: '500'
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = '#FFD700';
+              e.currentTarget.style.boxShadow = '0 0 0 3px rgba(255, 215, 0, 0.2)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.4)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+          >
+            <option value="" style={{ background: '#1a1a4e', color: '#D1D5DB' }}>
+              -- Select a category --
+            </option>
+            {categories.map((category) => (
+              <option
+                key={category.id}
+                value={category.id}
+                style={{ background: '#1a1a4e', color: '#FFFFFF', padding: '0.75rem' }}
+              >
+                {category.icon ? `${category.icon} ` : ''}{category.name}
+              </option>
+            ))}
+          </select>
+
+          {categories.length > 0 && (
+            <p style={{
+              color: '#9CA3AF',
+              fontSize: '0.9rem',
+              marginTop: '1rem',
+              fontStyle: 'italic'
+            }}>
+              {categories.length} categories available
+            </p>
+          )}
         </div>
       </div>
     );
@@ -441,29 +457,51 @@ const Aptitude: React.FC<AptitudeProps> = ({
   };
 
   // Render Practice Mode (similar to ExamBot)
+  // Render Practice Mode (similar to ExamBot)
   const renderPractice = () => {
     if (questions.length === 0) {
-      return (
-        <div style={{ color: 'white', textAlign: 'center', padding: '3rem' }}>
-          <p style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>No questions found for selected filters</p>
-          <button
-            onClick={() => setViewMode('selectFilters')}
-            style={{
-              padding: '0.75rem 1.5rem',
-              borderRadius: '0.5rem',
-              background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-              border: 'none',
-              color: '#1a1a4e',
-              fontSize: '1rem',
-              fontWeight: '600',
-              cursor: 'pointer'
-            }}
-          >
-            Change Filters
-          </button>
-        </div>
-      );
-    }
+  return (
+    <div style={{ color: 'white', textAlign: 'center', padding: '3rem' }}>
+      <p style={{ fontSize: '1.25rem', marginBottom: '2rem' }}>No questions found for selected filters</p>
+      <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <button
+          onClick={() => setViewMode('selectCategory')}
+          style={{
+            padding: '0.75rem 1.5rem',
+            borderRadius: '0.5rem',
+            background: 'rgba(255, 255, 255, 0.1)',
+            border: '2px solid rgba(255, 215, 0, 0.3)',
+            color: '#FFD700',
+            fontSize: '1rem',
+            fontWeight: '600',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem'
+          }}
+        >
+          <ChevronLeft size={20} />
+          Back to Categories
+        </button>
+        <button
+          onClick={() => setViewMode('selectFilters')}
+          style={{
+            padding: '0.75rem 1.5rem',
+            borderRadius: '0.5rem',
+            background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+            border: 'none',
+            color: '#1a1a4e',
+            fontSize: '1rem',
+            fontWeight: '600',
+            cursor: 'pointer'
+          }}
+        >
+          Change Filters
+        </button>
+      </div>
+    </div>
+  );
+}
 
     const currentQuestion = questions[currentQuestionIndex];
     const progress = ((attemptedQuestions.size / questions.length) * 100).toFixed(0);
