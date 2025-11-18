@@ -4,8 +4,18 @@ This directory contains all database schema files for the PrepNX educational pla
 
 ## Files
 
+### 0. `00_cleanup_exambot_tables.sql` 🧹 **Optional Cleanup**
+**Purpose:** Standalone cleanup script to drop all ExamBot tables
+
+**When to use:**
+- If you want to manually clean up before running the main schema
+- For documentation/reference purposes
+- **Note:** The main schema file now includes automatic cleanup, so this is optional
+
 ### 1. `exambot_correct_schema.sql` ⭐ **USE THIS ONE**
 **Purpose:** Complete database schema for the ExamBot question bank system (matches ExamBot service)
+
+**Important:** This schema now **automatically drops existing tables** before creating new ones, preventing type conflicts and ensuring a clean setup.
 
 **Tables included:**
 - `exam_categories` - Exam categories (UPSC, SSC, Banking, etc.)

@@ -6,6 +6,23 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- ============================================
+-- CLEANUP: Drop existing tables if they exist
+-- This ensures a clean slate and prevents type conflicts
+-- ============================================
+DROP TABLE IF EXISTS test_session_answers CASCADE;
+DROP TABLE IF EXISTS test_sessions CASCADE;
+DROP TABLE IF EXISTS user_question_progress CASCADE;
+DROP TABLE IF EXISTS questions CASCADE;
+DROP TABLE IF EXISTS subtopics CASCADE;
+DROP TABLE IF EXISTS topics CASCADE;
+DROP TABLE IF EXISTS exam_categories CASCADE;
+
+-- Drop old/legacy tables if they exist
+DROP TABLE IF EXISTS chapters CASCADE;
+DROP TABLE IF EXISTS subjects CASCADE;
+DROP TABLE IF EXISTS exams CASCADE;
+
+-- ============================================
 -- EXAM CATEGORIES TABLE
 -- ============================================
 CREATE TABLE IF NOT EXISTS exam_categories (

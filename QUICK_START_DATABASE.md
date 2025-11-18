@@ -23,6 +23,8 @@ table-schema/exambot_correct_schema.sql
 
 Then click **Run** (or press Ctrl+Enter)
 
+**⚠️ Note:** This script will automatically drop any existing ExamBot tables before creating new ones. This prevents type conflicts and ensures a clean setup.
+
 ### What This Creates:
 
 - ✅ `exam_categories` - Stores UPSC, SSC, Banking, etc.
@@ -137,21 +139,15 @@ LIMIT 1;
 
 ### Error: "relation already exists"
 
-**Cause:** Tables already exist in your database
+**Cause:** The schema file should automatically drop existing tables, but if this error occurs, you may have custom constraints.
 
-**Solution:**
-```sql
--- Drop existing tables (WARNING: This deletes all data!)
-DROP TABLE IF EXISTS test_session_answers CASCADE;
-DROP TABLE IF EXISTS test_sessions CASCADE;
-DROP TABLE IF EXISTS user_question_progress CASCADE;
-DROP TABLE IF EXISTS questions CASCADE;
-DROP TABLE IF EXISTS subtopics CASCADE;
-DROP TABLE IF EXISTS topics CASCADE;
-DROP TABLE IF EXISTS exam_categories CASCADE;
+**Solution:** The schema file (`exambot_correct_schema.sql`) now automatically drops existing tables at the start. Just run it again - it will clean up and recreate everything.
 
--- Then run the schema file again
-```
+### Error: Foreign key constraint type mismatch
+
+**Cause:** Old tables with different column types (UUID vs TEXT) still exist
+
+**Solution:** Run the schema file again - it now includes automatic cleanup of old tables with incompatible types.
 
 ### Error: "relation does not exist" when loading sample data
 
