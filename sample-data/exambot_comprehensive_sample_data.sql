@@ -6,21 +6,21 @@
 -- EXAM CATEGORIES
 -- ============================================
 
-INSERT INTO exam_categories (id, category_name, description, icon, is_active, created_at) VALUES
-('exam-upsc-001', 'UPSC Civil Services', 'Union Public Service Commission - Civil Services Examination', '🏛️', true, NOW()),
-('exam-ssc-002', 'SSC CGL', 'Staff Selection Commission - Combined Graduate Level', '📚', true, NOW()),
-('exam-bank-003', 'Banking (IBPS)', 'Institute of Banking Personnel Selection', '🏦', true, NOW()),
-('exam-railway-004', 'Railway Recruitment', 'Railway Recruitment Board Examinations', '🚂', true, NOW()),
-('exam-gate-005', 'GATE', 'Graduate Aptitude Test in Engineering', '⚙️', true, NOW()),
-('exam-cat-006', 'CAT', 'Common Admission Test', '💼', true, NOW()),
-('exam-neet-007', 'NEET', 'National Eligibility cum Entrance Test', '🏥', true, NOW()),
-('exam-jee-008', 'JEE Main', 'Joint Entrance Examination', '🔬', true, NOW());
+INSERT INTO exam_categories (category_name, description, icon, is_active, created_at) VALUES
+('UPSC Civil Services', 'Union Public Service Commission - Civil Services Examination', '🏛️', true, NOW()),
+('SSC CGL', 'Staff Selection Commission - Combined Graduate Level', '📚', true, NOW()),
+('Banking (IBPS)', 'Institute of Banking Personnel Selection', '🏦', true, NOW()),
+('Railway Recruitment', 'Railway Recruitment Board Examinations', '🚂', true, NOW()),
+('GATE', 'Graduate Aptitude Test in Engineering', '⚙️', true, NOW()),
+('CAT', 'Common Admission Test', '💼', true, NOW()),
+('NEET', 'National Eligibility cum Entrance Test', '🏥', true, NOW()),
+('JEE Main', 'Joint Entrance Examination', '🔬', true, NOW());
 
 -- ============================================
 -- TOPICS
 -- ============================================
 
-INSERT INTO topics (id, topic_name, description, created_at) VALUES
+INSERT INTO topics (id, name, description, created_at) VALUES
 -- History Topics
 ('topic-hist-001', 'Ancient Indian History', 'Indus Valley Civilization to Gupta Period', NOW()),
 ('topic-hist-002', 'Medieval Indian History', 'Delhi Sultanate to Mughal Empire', NOW()),
@@ -65,7 +65,7 @@ INSERT INTO topics (id, topic_name, description, created_at) VALUES
 -- SUBTOPICS
 -- ============================================
 
-INSERT INTO subtopics (id, topic_id, subtopic_name, created_at) VALUES
+INSERT INTO subtopics (id, topic_id, name, created_at) VALUES
 -- Ancient History Subtopics
 ('subtopic-hist-001-01', 'topic-hist-001', 'Indus Valley Civilization', NOW()),
 ('subtopic-hist-001-02', 'topic-hist-001', 'Vedic Period', NOW()),

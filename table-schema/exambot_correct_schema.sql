@@ -9,7 +9,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- EXAM CATEGORIES TABLE
 -- ============================================
 CREATE TABLE IF NOT EXISTS exam_categories (
-  id TEXT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   category_name TEXT NOT NULL UNIQUE,
   description TEXT,
   icon TEXT,
@@ -27,14 +27,14 @@ CREATE INDEX IF NOT EXISTS idx_exam_categories_name ON exam_categories(category_
 -- ============================================
 CREATE TABLE IF NOT EXISTS topics (
   id TEXT PRIMARY KEY,
-  topic_name TEXT NOT NULL,
+  name TEXT NOT NULL,
   description TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Index for topic lookups
-CREATE INDEX IF NOT EXISTS idx_topics_name ON topics(topic_name);
+CREATE INDEX IF NOT EXISTS idx_topics_name ON topics(name);
 
 -- ============================================
 -- SUBTOPICS TABLE
@@ -42,7 +42,7 @@ CREATE INDEX IF NOT EXISTS idx_topics_name ON topics(topic_name);
 CREATE TABLE IF NOT EXISTS subtopics (
   id TEXT PRIMARY KEY,
   topic_id TEXT NOT NULL REFERENCES topics(id) ON DELETE CASCADE,
-  subtopic_name TEXT NOT NULL,
+  name TEXT NOT NULL,
   file TEXT,
   icon TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS subtopics (
 
 -- Indexes for subtopic lookups
 CREATE INDEX IF NOT EXISTS idx_subtopics_topic_id ON subtopics(topic_id);
-CREATE INDEX IF NOT EXISTS idx_subtopics_name ON subtopics(subtopic_name);
+CREATE INDEX IF NOT EXISTS idx_subtopics_name ON subtopics(name);
 
 -- ============================================
 -- QUESTIONS TABLE (Main Question Bank)
