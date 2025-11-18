@@ -4,18 +4,20 @@ This directory contains all database schema files for the PrepNX educational pla
 
 ## Files
 
-### 1. `exambot_schema.sql`
-**Purpose:** Complete database schema for the ExamBot question bank system
+### 1. `exambot_correct_schema.sql` ⭐ **USE THIS ONE**
+**Purpose:** Complete database schema for the ExamBot question bank system (matches ExamBot service)
 
 **Tables included:**
-- `exams` - Exam categories (UPSC, SSC, Banking, etc.)
-- `subjects` - Subject classification within exams
-- `chapters` - Chapter/topic organization
-- `topics` - Sub-topic organization (optional)
+- `exam_categories` - Exam categories (UPSC, SSC, Banking, etc.)
+- `topics` - Main topics across subjects
+- `subtopics` - Subtopics under each topic
 - `questions` - Main question bank with all metadata
 - `user_question_progress` - Track user progress per question
 - `test_sessions` - Track user test sessions
 - `test_session_answers` - Store answers for each test session
+
+### 2. `exambot_schema.sql` ⚠️ **LEGACY - DO NOT USE**
+Old schema with different table names (`exams`, `subjects`, `chapters`). Use `exambot_correct_schema.sql` instead.
 
 **Features:**
 - Row Level Security (RLS) policies
@@ -27,10 +29,10 @@ This directory contains all database schema files for the PrepNX educational pla
 **Usage:**
 ```bash
 # Run this in your Supabase SQL Editor
-psql -h your-db-host -U postgres -d your-database -f exambot_schema.sql
+psql -h your-db-host -U postgres -d your-database -f exambot_correct_schema.sql
 ```
 
-### 2. `aptitude_schema.sql`
+### 3. `aptitude_schema.sql`
 **Purpose:** Database schema for the Aptitude module
 
 **Tables included:**
@@ -38,7 +40,7 @@ psql -h your-db-host -U postgres -d your-database -f exambot_schema.sql
 - Practice mode tracking
 - Skill assessment tables
 
-### 3. `supabase_functions.sql`
+### 4. `supabase_functions.sql`
 **Purpose:** Database functions and stored procedures
 
 **Functions included:**
@@ -54,8 +56,8 @@ psql -h your-db-host -U postgres -d your-database -f exambot_schema.sql
 
 2. **Run the schema files in order:**
    ```sql
-   -- First: Create main schema
-   \i exambot_schema.sql
+   -- First: Create main schema (USE THIS ONE!)
+   \i exambot_correct_schema.sql
 
    -- Second: Create aptitude schema (if needed)
    \i aptitude_schema.sql
@@ -97,12 +99,13 @@ When modifying schema:
 ## Schema Relationships
 
 ```
-exams (1) ────> (many) subjects
-subjects (1) ──> (many) chapters
-chapters (1) ──> (many) topics
-topics (1) ────> (many) questions
-questions (1) ─> (many) user_question_progress
-questions (1) ─> (many) test_session_answers
+exam_categories (1) ────> (many) questions (via exam field)
+topics (1) ─────────────> (many) subtopics
+topics (1) ─────────────> (many) questions (via topic_id)
+subtopics (1) ──────────> (many) questions (via subtopic_id)
+questions (1) ──────────> (many) user_question_progress
+questions (1) ──────────> (many) test_session_answers
+test_sessions (1) ──────> (many) test_session_answers
 ```
 
 ## Important Notes

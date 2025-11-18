@@ -45,8 +45,8 @@ This directory contains sample data files to populate your database for testing 
    # Navigate to table-schema directory
    cd ../table-schema
 
-   # Run schema file in Supabase SQL Editor or psql
-   psql -h your-host -U postgres -d your-db -f exambot_schema.sql
+   # Run the CORRECT schema file in Supabase SQL Editor or psql
+   psql -h your-host -U postgres -d your-db -f exambot_correct_schema.sql
    ```
 
 2. **Verify schema is ready:**
